@@ -1,2 +1,2 @@
 # AddInManager
-The *Excel-DNA Add-In Manager* provides a toolkit for distributing and managing Excel add-ins.
+The _Excel-DNA Add-In Manager_ assists in distributing and managing Excel add-ins.
