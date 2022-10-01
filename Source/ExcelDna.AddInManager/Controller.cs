@@ -1,4 +1,5 @@
 ﻿using ExcelDna.Integration;
+using System.IO;
 
 namespace ExcelDna.AddInManager
 {
@@ -43,6 +44,14 @@ namespace ExcelDna.AddInManager
             File.Move(installedXllPath, delXllPath, true);
         }
 
+        public static void OnOptions()
+        {
+            OptionsDialog dialog = new OptionsDialog(generalOptions);
+            if (dialog.ShowDialog().GetValueOrDefault())
+            {
+            }
+        }
+
         private static void Register(string xllPath)
         {
             ExcelAsyncUtil.QueueAsMacro(() =>
@@ -61,5 +70,6 @@ namespace ExcelDna.AddInManager
 
         private static string dataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ExcelDna.AddInManager");
         private static string installedDir = Path.Combine(dataDir, "Installed");
+        private static GeneralOptions generalOptions = new GeneralOptions();
     }
 }

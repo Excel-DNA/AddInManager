@@ -28,4 +28,9 @@ public class Ribbon : ExcelRibbon
         string path = @"MyAddIn1-AddIn64-packed.xll";
         Controller.Uninstall(path);
     }
+
+    public void OnButtonOptionsPressed(IRibbonControl control)
+    {
+        Controller.OnOptions();
+    }
 }
