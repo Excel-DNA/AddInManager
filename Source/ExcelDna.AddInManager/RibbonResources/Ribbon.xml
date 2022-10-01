@@ -4,7 +4,7 @@
 		<tabs>
 			<tab id='tab1' label='Add-In Manager'>
 				<group id='group1' label='My Group'>
-					<button id='button1' label='My Button' onAction='OnButtonPressed' image='Image1'/>
+					<button id='button1' label='Install' onAction='OnButtonInstallPressed' image='Image1'/>
 				</group>
 			</tab>
 		</tabs>

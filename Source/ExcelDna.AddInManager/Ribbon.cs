@@ -17,8 +17,9 @@ public class Ribbon : ExcelRibbon
         return RibbonResources.ResourceManager.GetObject(imageId);
     }
 
-    public void OnButtonPressed(IRibbonControl control)
+    public void OnButtonInstallPressed(IRibbonControl control)
     {
-        System.Windows.Forms.MessageBox.Show("Hello!");
+        string path = @"MyAddIn1-AddIn64-packed.xll";
+        Controller.Install(path);
     }
 }
