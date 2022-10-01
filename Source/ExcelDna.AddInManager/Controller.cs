@@ -9,6 +9,17 @@ namespace ExcelDna.AddInManager
             if (!Directory.Exists(installedDir))
                 return;
 
+            foreach (string xll in Directory.GetFiles(installedDir, "*.del"))
+            {
+                try
+                {
+                    File.Delete(xll);
+                }
+                catch
+                {
+                }
+            }
+
             foreach (string xll in Directory.GetFiles(installedDir, "*.xll"))
             {
                 Register(xll);
@@ -23,11 +34,28 @@ namespace ExcelDna.AddInManager
             Register(installedXllPath);
         }
 
+        public static void Uninstall(string xllFileName)
+        {
+            string installedXllPath = Path.Combine(installedDir, Path.GetFileName(xllFileName));
+            Unregister(installedXllPath);
+
+            string delXllPath = installedXllPath + ".del";
+            File.Move(installedXllPath, delXllPath, true);
+        }
+
         private static void Register(string xllPath)
         {
             ExcelAsyncUtil.QueueAsMacro(() =>
             {
                 ExcelIntegration.RegisterXLL(xllPath);
+            });
+        }
+
+        private static void Unregister(string xllPath)
+        {
+            ExcelAsyncUtil.QueueAsMacro(() =>
+            {
+                ExcelIntegration.UnregisterXLL(xllPath);
             });
         }
 

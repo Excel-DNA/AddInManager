@@ -5,6 +5,7 @@
 			<tab id='tab1' label='Add-In Manager'>
 				<group id='group1' label='My Group'>
 					<button id='button1' label='Install' onAction='OnButtonInstallPressed' image='Image1'/>
+					<button id='button2' label='Uninstall' onAction='OnButtonUninstallPressed' image='Image1'/>
 				</group>
 			</tab>
 		</tabs>

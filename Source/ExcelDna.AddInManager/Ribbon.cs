@@ -22,4 +22,10 @@ public class Ribbon : ExcelRibbon
         string path = @"MyAddIn1-AddIn64-packed.xll";
         Controller.Install(path);
     }
+
+    public void OnButtonUninstallPressed(IRibbonControl control)
+    {
+        string path = @"MyAddIn1-AddIn64-packed.xll";
+        Controller.Uninstall(path);
+    }
 }
