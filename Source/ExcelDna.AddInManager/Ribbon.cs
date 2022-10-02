@@ -19,8 +19,14 @@ public class Ribbon : ExcelRibbon
 
     public void OnButtonInstallPressed(IRibbonControl control)
     {
-        string path = @"MyAddIn1-AddIn64-packed.xll";
-        Controller.Install(path);
+        try
+        {
+            AddIn.GetController()?.OnInstall();
+        }
+        catch (Exception e)
+        {
+            ExceptionHandler.ShowException(e);
+        }
     }
 
     public void OnButtonUninstallPressed(IRibbonControl control)
@@ -31,6 +37,13 @@ public class Ribbon : ExcelRibbon
 
     public void OnButtonOptionsPressed(IRibbonControl control)
     {
-        AddIn.GetController()?.OnOptions();
+        try
+        {
+            AddIn.GetController()?.OnOptions();
+        }
+        catch (Exception e)
+        {
+            ExceptionHandler.ShowException(e);
+        }
     }
 }

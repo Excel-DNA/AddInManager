@@ -30,14 +30,6 @@ namespace ExcelDna.AddInManager
             }
         }
 
-        public static void Install(string sourceXllPath)
-        {
-            string installedXllPath = Path.Combine(installedDir, Path.GetFileName(sourceXllPath));
-            Storage.CreateDirectoryForFile(installedXllPath);
-            File.Copy(sourceXllPath, installedXllPath, true);
-            Register(installedXllPath);
-        }
-
         public static void Uninstall(string xllFileName)
         {
             string installedXllPath = Path.Combine(installedDir, Path.GetFileName(xllFileName));
@@ -47,6 +39,25 @@ namespace ExcelDna.AddInManager
             File.Move(installedXllPath, delXllPath, true);
         }
 
+        public void OnInstall()
+        {
+            List<string> files = new();
+            string? source = generalOptions.source;
+            if (!string.IsNullOrWhiteSpace(source) && Directory.Exists(source))
+            {
+                files = Directory.GetFiles(source, "*.xll").ToList();
+            }
+
+            InstallDialog dialog = new InstallDialog(files);
+            if (dialog.ShowDialog().GetValueOrDefault())
+            {
+                foreach (var i in dialog.GetSelectedFiles()!)
+                {
+                    Install(i);
+                }
+            }
+        }
+
         public void OnOptions()
         {
             OptionsDialog dialog = new OptionsDialog(generalOptions);
@@ -54,6 +65,14 @@ namespace ExcelDna.AddInManager
             {
                 Storage.SaveGeneralOptions(generalOptions);
             }
+        }
+
+        private static void Install(string sourceXllPath)
+        {
+            string installedXllPath = Path.Combine(installedDir, Path.GetFileName(sourceXllPath));
+            Storage.CreateDirectoryForFile(installedXllPath);
+            File.Copy(sourceXllPath, installedXllPath, true);
+            Register(installedXllPath);
         }
 
         private static void Register(string xllPath)
