@@ -30,15 +30,6 @@ namespace ExcelDna.AddInManager
             }
         }
 
-        public static void Uninstall(string xllFileName)
-        {
-            string installedXllPath = Path.Combine(installedDir, Path.GetFileName(xllFileName));
-            Unregister(installedXllPath);
-
-            string delXllPath = installedXllPath + ".del";
-            File.Move(installedXllPath, delXllPath, true);
-        }
-
         public void OnInstall()
         {
             List<string> files = new();
@@ -58,6 +49,25 @@ namespace ExcelDna.AddInManager
             }
         }
 
+        public void OnManage()
+        {
+            List<string> files = new();
+            if (Directory.Exists(installedDir))
+            {
+                foreach (var i in Directory.GetFiles(installedDir, "*.xll"))
+                    files.Add(Path.GetFileName(i));
+            }
+
+            ManageDialog dialog = new ManageDialog(files);
+            if (dialog.ShowDialog().GetValueOrDefault())
+            {
+                foreach (var i in dialog.GetFilesForUninstall()!)
+                {
+                    Uninstall(i);
+                }
+            }
+        }
+
         public void OnOptions()
         {
             OptionsDialog dialog = new OptionsDialog(generalOptions);
@@ -73,6 +83,15 @@ namespace ExcelDna.AddInManager
             Storage.CreateDirectoryForFile(installedXllPath);
             File.Copy(sourceXllPath, installedXllPath, true);
             Register(installedXllPath);
+        }
+
+        private static void Uninstall(string xllFileName)
+        {
+            string installedXllPath = Path.Combine(installedDir, xllFileName);
+            Unregister(installedXllPath);
+
+            string delXllPath = installedXllPath + ".del";
+            File.Move(installedXllPath, delXllPath, true);
         }
 
         private static void Register(string xllPath)

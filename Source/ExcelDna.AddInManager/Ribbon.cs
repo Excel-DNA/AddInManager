@@ -29,10 +29,16 @@ public class Ribbon : ExcelRibbon
         }
     }
 
-    public void OnButtonUninstallPressed(IRibbonControl control)
+    public void OnButtonManagePressed(IRibbonControl control)
     {
-        string path = @"MyAddIn1-AddIn64-packed.xll";
-        Controller.Uninstall(path);
+        try
+        {
+            AddIn.GetController()?.OnManage();
+        }
+        catch (Exception e)
+        {
+            ExceptionHandler.ShowException(e);
+        }
     }
 
     public void OnButtonOptionsPressed(IRibbonControl control)
