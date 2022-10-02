@@ -1,12 +1,15 @@
 ﻿using ExcelDna.Integration;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 namespace ExcelDna.AddInManager
 {
     internal class Controller
     {
-        public static void AutoOpen()
+        public Controller()
         {
+            LoadGeneralOptions();
+
             if (!Directory.Exists(installedDir))
                 return;
 
@@ -29,8 +32,8 @@ namespace ExcelDna.AddInManager
 
         public static void Install(string sourceXllPath)
         {
-            Directory.CreateDirectory(installedDir);
             string installedXllPath = Path.Combine(installedDir, Path.GetFileName(sourceXllPath));
+            Storage.CreateDirectoryForFile(installedXllPath);
             File.Copy(sourceXllPath, installedXllPath, true);
             Register(installedXllPath);
         }
@@ -44,11 +47,12 @@ namespace ExcelDna.AddInManager
             File.Move(installedXllPath, delXllPath, true);
         }
 
-        public static void OnOptions()
+        public void OnOptions()
         {
             OptionsDialog dialog = new OptionsDialog(generalOptions);
             if (dialog.ShowDialog().GetValueOrDefault())
             {
+                Storage.SaveGeneralOptions(generalOptions);
             }
         }
 
@@ -68,8 +72,22 @@ namespace ExcelDna.AddInManager
             });
         }
 
-        private static string dataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ExcelDna.AddInManager");
-        private static string installedDir = Path.Combine(dataDir, "Installed");
-        private static GeneralOptions generalOptions = new GeneralOptions();
+        [MemberNotNull(nameof(generalOptions))]
+        private void LoadGeneralOptions()
+        {
+            try
+            {
+                generalOptions = Storage.LoadGeneralOptions() ?? null!;
+            }
+            catch (System.ApplicationException e)
+            {
+                System.Windows.MessageBox.Show(e.ToString(), "ExcelDna.AddInManager Load general options", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            }
+            if (generalOptions == null)
+                generalOptions = new GeneralOptions();
+        }
+
+        private static string installedDir = Storage.GetInstalledAddinsDirectory();
+        private GeneralOptions generalOptions;
     }
 }

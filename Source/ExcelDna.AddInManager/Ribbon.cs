@@ -31,6 +31,6 @@ public class Ribbon : ExcelRibbon
 
     public void OnButtonOptionsPressed(IRibbonControl control)
     {
-        Controller.OnOptions();
+        AddIn.GetController()?.OnOptions();
     }
 }
