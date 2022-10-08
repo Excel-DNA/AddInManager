@@ -11,15 +11,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <ListView Grid.Column="0" Margin="0,0,11,0" x:Name="addinsListView">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=ProductName}" />
-                    <GridViewColumn Header="Company" DisplayMemberBinding="{Binding Path=CompanyName}" />
-                    <GridViewColumn Header="Version" DisplayMemberBinding="{Binding Path=Version}" />
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <local:AddinsListView Grid.Column="0" Margin="0,0,11,0" x:Name="addinsListView"/>
         <Button Grid.Column="1" Name="installButton" VerticalAlignment="Top" MinWidth="70" Click="OnInstall">Install</Button>
     </Grid>
 </Window>

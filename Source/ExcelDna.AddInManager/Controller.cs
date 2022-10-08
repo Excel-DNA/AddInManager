@@ -51,19 +51,18 @@ namespace ExcelDna.AddInManager
 
         public void OnManage()
         {
-            List<string> files = new();
+            List<AddInVersionInfo> addins = new();
             if (Directory.Exists(installedDir))
             {
-                foreach (var i in Directory.GetFiles(installedDir, "*.xll"))
-                    files.Add(Path.GetFileName(i));
+                addins = Directory.GetFiles(installedDir, "*.xll").Select(i => new AddInVersionInfo(i)).ToList();
             }
 
-            ManageDialog dialog = new ManageDialog(files);
+            ManageDialog dialog = new ManageDialog(addins);
             if (dialog.ShowDialog().GetValueOrDefault())
             {
-                foreach (var i in dialog.GetFilesForUninstall()!)
+                foreach (var i in dialog.GetAddinsForUninstall()!)
                 {
-                    Uninstall(i);
+                    Uninstall(i.Path);
                 }
             }
         }

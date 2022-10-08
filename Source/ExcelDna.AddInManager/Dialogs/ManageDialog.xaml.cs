@@ -1,32 +1,26 @@
-﻿using System.IO;
-using System.Windows;
+﻿using System.Windows;
 
 namespace ExcelDna.AddInManager
 {
-    public partial class ManageDialog : Window
+    internal partial class ManageDialog : Window
     {
-        public ManageDialog(List<string> files)
+        public ManageDialog(List<AddInVersionInfo> addins)
         {
             InitializeComponent();
-            this.files = files;
 
-            foreach (string i in files)
-                addinsListBox.Items.Add(Path.GetFileNameWithoutExtension(i));
+            addinsListView.Add(addins);
         }
 
-        public List<string>? GetFilesForUninstall()
+        public List<AddInVersionInfo>? GetAddinsForUninstall()
         {
-            return filesForUninstall;
+            return addinsForUninstall;
         }
 
         private void OnUninstall(object sender, RoutedEventArgs args)
         {
             try
             {
-                filesForUninstall = new List<string>();
-                int i = addinsListBox.SelectedIndex;
-                if (i >= 0)
-                    filesForUninstall.Add(files[i]);
+                addinsForUninstall = addinsListView.GetSelectedAddins();
 
                 DialogResult = true;
             }
@@ -36,7 +30,6 @@ namespace ExcelDna.AddInManager
             }
         }
 
-        private List<string> files;
-        private List<string>? filesForUninstall;
+        private List<AddInVersionInfo>? addinsForUninstall;
     }
 }
