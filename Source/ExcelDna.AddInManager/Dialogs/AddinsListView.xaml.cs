@@ -25,8 +25,8 @@ namespace ExcelDna.AddInManager
 
         public void Add(List<AddInVersionInfo> addins)
         {
-            foreach (var i in addins)
-                addinsListView.Items.Add(new ListItem(i));
+            foreach (var i in addins.Select(i => new ListItem(i)).OrderBy(i => i.ProductName))
+                addinsListView.Items.Add(i);
         }
 
         public List<AddInVersionInfo> GetSelectedAddins()
