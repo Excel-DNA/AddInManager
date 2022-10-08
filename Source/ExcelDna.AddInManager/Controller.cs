@@ -81,6 +81,10 @@ namespace ExcelDna.AddInManager
             }
 
             string installedXllPath = Path.Combine(installedDir, Path.GetFileName(addin.Path));
+            if (File.Exists(installedXllPath))
+            {
+                Uninstall(installedXllPath);
+            }
             Storage.CreateDirectoryForFile(installedXllPath);
             File.Copy(addin.Path, installedXllPath, true);
             Register(installedXllPath);
