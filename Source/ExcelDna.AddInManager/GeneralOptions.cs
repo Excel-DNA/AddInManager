@@ -2,6 +2,6 @@
 {
     public class GeneralOptions
     {
-        public string? source;
+        public List<AddInsSource>? sources;
     }
 }

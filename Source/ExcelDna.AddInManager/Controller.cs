@@ -32,14 +32,7 @@ namespace ExcelDna.AddInManager
 
         public void OnInstall()
         {
-            List<AddInVersionInfo> addins = new();
-            string? source = generalOptions.source;
-            if (!string.IsNullOrWhiteSpace(source) && Directory.Exists(source))
-            {
-                addins = Directory.GetFiles(source, "*.xll").Select(i => new AddInVersionInfo(i)).ToList();
-            }
-
-            InstallDialog dialog = new InstallDialog(addins);
+            InstallDialog dialog = new InstallDialog(GetSourceAddins());
             if (dialog.ShowDialog().GetValueOrDefault())
             {
                 foreach (var i in dialog.GetSelectedAddins()!)
@@ -105,6 +98,24 @@ namespace ExcelDna.AddInManager
             if (Directory.Exists(installedDir))
             {
                 addins = Directory.GetFiles(installedDir, "*.xll").Select(i => new AddInVersionInfo(i)).ToList();
+            }
+
+            return addins;
+        }
+
+        private List<AddInVersionInfo> GetSourceAddins()
+        {
+            List<AddInVersionInfo> addins = new();
+            if (generalOptions.sources != null)
+            {
+                foreach (var addinSource in generalOptions.sources)
+                {
+                    string? source = addinSource.source;
+                    if (!string.IsNullOrWhiteSpace(source) && Directory.Exists(source))
+                    {
+                        addins.AddRange(Directory.GetFiles(source, "*.xll").Select(i => new AddInVersionInfo(i)));
+                    }
+                }
             }
 
             return addins;
