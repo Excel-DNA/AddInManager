@@ -3,30 +3,44 @@ using System.Windows;
 
 namespace ExcelDna.AddInManager
 {
-    public partial class InstallDialog : Window
+    internal partial class InstallDialog : Window
     {
-        public InstallDialog(List<string> files)
+        private class ListItem
         {
-            InitializeComponent();
-            this.files = files;
+            public ListItem(AddInVersionInfo addin)
+            {
+                this.Addin = addin;
+            }
 
-            foreach (string i in files)
-                addinsListBox.Items.Add(Path.GetFileNameWithoutExtension(i));
+            public string? CompanyName => Addin.CompanyName;
+            public string? ProductName => Addin.IsVersioned ? Addin.ProductName : Path.GetFileNameWithoutExtension(Addin.Path);
+            public string? Version => Addin.Version?.ToString();
+
+            public AddInVersionInfo Addin { get; }
         }
 
-        public List<string>? GetSelectedFiles()
+        public InstallDialog(List<AddInVersionInfo> addins)
         {
-            return selectedFiles;
+            InitializeComponent();
+            this.addins = addins;
+
+            foreach (var i in addins)
+                addinsListView.Items.Add(new ListItem(i));
+        }
+
+        public List<AddInVersionInfo>? GetSelectedAddins()
+        {
+            return selectedAddins;
         }
 
         private void OnInstall(object sender, RoutedEventArgs args)
         {
             try
             {
-                selectedFiles = new List<string>();
-                int i = addinsListBox.SelectedIndex;
+                selectedAddins = new List<AddInVersionInfo>();
+                int i = addinsListView.SelectedIndex;
                 if (i >= 0)
-                    selectedFiles.Add(files[i]);
+                    selectedAddins.Add(addins[i]);
 
                 DialogResult = true;
             }
@@ -36,7 +50,7 @@ namespace ExcelDna.AddInManager
             }
         }
 
-        private List<string> files;
-        private List<string>? selectedFiles;
+        private List<AddInVersionInfo> addins;
+        private List<AddInVersionInfo>? selectedAddins;
     }
 }

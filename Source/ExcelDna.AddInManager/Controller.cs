@@ -32,19 +32,19 @@ namespace ExcelDna.AddInManager
 
         public void OnInstall()
         {
-            List<string> files = new();
+            List<AddInVersionInfo> addins = new();
             string? source = generalOptions.source;
             if (!string.IsNullOrWhiteSpace(source) && Directory.Exists(source))
             {
-                files = Directory.GetFiles(source, "*.xll").ToList();
+                addins = Directory.GetFiles(source, "*.xll").Select(i => new AddInVersionInfo(i)).ToList();
             }
 
-            InstallDialog dialog = new InstallDialog(files);
+            InstallDialog dialog = new InstallDialog(addins);
             if (dialog.ShowDialog().GetValueOrDefault())
             {
-                foreach (var i in dialog.GetSelectedFiles()!)
+                foreach (var i in dialog.GetSelectedAddins()!)
                 {
-                    Install(i);
+                    Install(i.Path);
                 }
             }
         }

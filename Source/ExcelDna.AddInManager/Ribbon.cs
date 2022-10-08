@@ -21,7 +21,7 @@ public class Ribbon : ExcelRibbon
     {
         try
         {
-            AddIn.GetController()?.OnInstall();
+            MainAddIn.GetController()?.OnInstall();
         }
         catch (Exception e)
         {
@@ -33,7 +33,7 @@ public class Ribbon : ExcelRibbon
     {
         try
         {
-            AddIn.GetController()?.OnManage();
+            MainAddIn.GetController()?.OnManage();
         }
         catch (Exception e)
         {
@@ -45,7 +45,7 @@ public class Ribbon : ExcelRibbon
     {
         try
         {
-            AddIn.GetController()?.OnOptions();
+            MainAddIn.GetController()?.OnOptions();
         }
         catch (Exception e)
         {

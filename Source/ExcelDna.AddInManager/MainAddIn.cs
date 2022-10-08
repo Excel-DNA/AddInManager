@@ -2,7 +2,7 @@
 
 namespace ExcelDna.AddInManager;
 
-public class AddIn : IExcelAddIn
+public class MainAddIn : IExcelAddIn
 {
     public void AutoOpen()
     {
