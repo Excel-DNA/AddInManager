@@ -2,7 +2,7 @@
 
 namespace ExcelDna.AddInManager
 {
-    internal partial class AddinsListView : System.Windows.Controls.UserControl
+    internal partial class AddInsListView : System.Windows.Controls.UserControl
     {
         private class ListItem
         {
@@ -18,7 +18,7 @@ namespace ExcelDna.AddInManager
             public AddInVersionInfo Addin { get; }
         }
 
-        public AddinsListView()
+        public AddInsListView()
         {
             InitializeComponent();
         }

@@ -11,7 +11,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <local:AddinsListView Grid.Column="0" Margin="0,0,11,0" x:Name="addinsListView"/>
+        <local:AddInsListView Grid.Column="0" Margin="0,0,11,0" x:Name="addinsListView"/>
         <Button Grid.Column="1" Name="uninstallButton" VerticalAlignment="Top" MinWidth="70" Click="OnUninstall">Uninstall</Button>
     </Grid>
 </Window>
