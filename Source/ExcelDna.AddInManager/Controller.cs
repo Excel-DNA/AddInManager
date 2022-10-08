@@ -44,20 +44,14 @@ namespace ExcelDna.AddInManager
             {
                 foreach (var i in dialog.GetSelectedAddins()!)
                 {
-                    Install(i.Path);
+                    Install(i);
                 }
             }
         }
 
         public void OnManage()
         {
-            List<AddInVersionInfo> addins = new();
-            if (Directory.Exists(installedDir))
-            {
-                addins = Directory.GetFiles(installedDir, "*.xll").Select(i => new AddInVersionInfo(i)).ToList();
-            }
-
-            ManageDialog dialog = new ManageDialog(addins);
+            ManageDialog dialog = new ManageDialog(GetInstalledAddins());
             if (dialog.ShowDialog().GetValueOrDefault())
             {
                 foreach (var i in dialog.GetAddinsForUninstall()!)
@@ -76,11 +70,19 @@ namespace ExcelDna.AddInManager
             }
         }
 
-        private static void Install(string sourceXllPath)
+        private static void Install(AddInVersionInfo addin)
         {
-            string installedXllPath = Path.Combine(installedDir, Path.GetFileName(sourceXllPath));
+            if (addin.IsVersioned)
+            {
+                foreach (var i in GetInstalledAddins().Where(i => i.IsVersioned && i.CompanyName == addin.CompanyName && i.ProductName == addin.ProductName))
+                {
+                    Uninstall(i.Path);
+                }
+            }
+
+            string installedXllPath = Path.Combine(installedDir, Path.GetFileName(addin.Path));
             Storage.CreateDirectoryForFile(installedXllPath);
-            File.Copy(sourceXllPath, installedXllPath, true);
+            File.Copy(addin.Path, installedXllPath, true);
             Register(installedXllPath);
         }
 
@@ -91,6 +93,17 @@ namespace ExcelDna.AddInManager
 
             string delXllPath = installedXllPath + ".del";
             File.Move(installedXllPath, delXllPath, true);
+        }
+
+        private static List<AddInVersionInfo> GetInstalledAddins()
+        {
+            List<AddInVersionInfo> addins = new();
+            if (Directory.Exists(installedDir))
+            {
+                addins = Directory.GetFiles(installedDir, "*.xll").Select(i => new AddInVersionInfo(i)).ToList();
+            }
+
+            return addins;
         }
 
         private static void Register(string xllPath)
