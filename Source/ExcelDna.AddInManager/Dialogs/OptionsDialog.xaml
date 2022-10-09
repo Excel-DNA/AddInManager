@@ -8,6 +8,7 @@
         Title="Options" Height="450" Width="800">
     <Grid Margin="11">
         <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+            <CheckBox x:Name="autoUpdateAddInsCheckBox" Content="Automatically update add-ins"/>
             <Label Content="Sources:" Padding="0,5,5,5"></Label>
             <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" x:Name="sourcesTextBox"/>
         </StackPanel>

@@ -13,6 +13,9 @@ namespace ExcelDna.AddInManager
             if (!Directory.Exists(installedDir))
                 return;
 
+            if (generalOptions.autoUpdateAddIns)
+                AutoUpdateAddIns();
+
             foreach (string xll in Directory.GetFiles(installedDir, "*.del"))
             {
                 try
@@ -35,9 +38,10 @@ namespace ExcelDna.AddInManager
             InstallDialog dialog = new InstallDialog(GetSourceAddins());
             if (dialog.ShowDialog().GetValueOrDefault())
             {
+                var installedAddIns = GetInstalledAddins();
                 foreach (var i in dialog.GetSelectedAddins()!)
                 {
-                    Install(i);
+                    Install(i, installedAddIns, true);
                 }
             }
         }
@@ -63,11 +67,26 @@ namespace ExcelDna.AddInManager
             }
         }
 
-        private static void Install(AddInVersionInfo addin)
+        private void AutoUpdateAddIns()
+        {
+            var installedVersionedAddins = GetInstalledAddins().Where(i => i.IsVersioned).ToList();
+            if (installedVersionedAddins.Count() == 0)
+                return;
+
+            var sourceAddIns = GetSourceAddins().Where(i => i.IsVersioned);
+            foreach (var installedAddIn in installedVersionedAddins)
+            {
+                var latestSourceAddin = sourceAddIns.Where(i => SameProduct(i, installedAddIn)).OrderByDescending(i => i.Version).FirstOrDefault();
+                if (latestSourceAddin != null && latestSourceAddin.Version > installedAddIn.Version)
+                    Install(latestSourceAddin, installedVersionedAddins, false);
+            }
+        }
+
+        private static void Install(AddInVersionInfo addin, List<AddInVersionInfo> installedAddins, bool register)
         {
             if (addin.IsVersioned)
             {
-                foreach (var i in GetInstalledAddins().Where(i => i.IsVersioned && i.CompanyName == addin.CompanyName && i.ProductName == addin.ProductName))
+                foreach (var i in installedAddins.Where(i => SameProduct(i, addin)))
                 {
                     Uninstall(i.Path);
                 }
@@ -80,7 +99,9 @@ namespace ExcelDna.AddInManager
             }
             Storage.CreateDirectoryForFile(installedXllPath);
             File.Copy(addin.Path, installedXllPath, true);
-            Register(installedXllPath);
+
+            if (register)
+                Register(installedXllPath);
         }
 
         private static void Uninstall(string xllFileName)
@@ -135,6 +156,11 @@ namespace ExcelDna.AddInManager
             {
                 ExcelIntegration.UnregisterXLL(xllPath);
             });
+        }
+
+        private static bool SameProduct(AddInVersionInfo a1, AddInVersionInfo a2)
+        {
+            return a1.IsVersioned && a2.IsVersioned && a1.CompanyName == a2.CompanyName && a1.ProductName == a2.ProductName;
         }
 
         [MemberNotNull(nameof(generalOptions))]

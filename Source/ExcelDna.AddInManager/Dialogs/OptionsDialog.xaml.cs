@@ -10,6 +10,7 @@ namespace ExcelDna.AddInManager
 
             this.options = options;
 
+            autoUpdateAddInsCheckBox.IsChecked = options.autoUpdateAddIns;
             if (options.sources != null)
             {
                 string text = "";
@@ -27,6 +28,7 @@ namespace ExcelDna.AddInManager
         {
             try
             {
+                options.autoUpdateAddIns = autoUpdateAddInsCheckBox.IsChecked.GetValueOrDefault();
                 List<AddInsSource> sources = new();
                 for (int i = 0; i < sourcesTextBox.LineCount; ++i)
                 {
