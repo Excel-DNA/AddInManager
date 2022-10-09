@@ -250,3 +250,8 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+# Task Canvas
+*.TaskCanvasSL
+
+/Source/ExcelDna.AddInManager/Properties/launchSettings.json
