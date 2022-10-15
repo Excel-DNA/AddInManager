@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?define ProductVersion = "1.0.1"?>
-<?define ProductUpgradeCode = "{Generate a GUID}"?>
+<?define ProductUpgradeCode = "38479d0c-6cb4-42cb-b09d-c65d4b6d1a63"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
   <Product Id="*" Name="!(loc.ProductName)" 
@@ -109,14 +109,14 @@
     Try using for source: $(var.PROJECTREF.TargetDir)$(var.PROJECTREF.TargetName)-AddIn64-packed.xll
     -->
     <ComponentGroup Id="XLLDistributables">
-      <Component Id="XLL32" Guid="{Generate a GUID}" Directory="AddinFolder">
+      <Component Id="XLL32" Guid="f9b0a475-5287-4d60-9b82-c175becdb943" Directory="AddinFolder">
         <RegistryValue Root="HKCU" Key="Software\!(loc.ProductManufacturer)\Excel Add-In" Name="Xll32Bit" Value="AddIns" KeyPath="yes" Type="string" />
 
         <File Id="EXCELXLL32PACKED.XLL" Name="!(loc.ProductNameNoSpace)32.xll" Source="Path to 32 bit packed xll" >
           <netfx:NativeImage Id="ngen_32Xll" Platform="32bit" Priority="0"/>
         </File>
       </Component>
-      <Component Id="XLL64" Guid="{Generate a GUID}" Directory="AddinFolder">
+      <Component Id="XLL64" Guid="123a17e4-622a-46c0-b6a5-f3fb208ddb98" Directory="AddinFolder">
         <RegistryValue Root="HKCU" Key="Software\!(loc.ProductManufacturer)\Excel Add-In" Name="Xll64Bit" Value="AddIns" KeyPath="yes" Type="string" />
 
         <File Id="EXCELXLL64PACKED.XLL" Name="!(loc.ProductNameNoSpace)64.xll" Source="Path to 64 bit packed xll" >
