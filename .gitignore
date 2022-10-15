@@ -258,3 +258,4 @@ paket-files/
 *.marker.tss
 
 /Source/ExcelDna.AddInManager/Properties/launchSettings.json
+/Source/Installer/ExcelAddInDeploy/SourceFiles
