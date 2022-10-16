@@ -27,9 +27,9 @@ namespace ExcelDna.AddInManager
                 }
             }
 
-            foreach (string xll in Directory.GetFiles(installedDir, "*.xll"))
+            foreach (var i in GetInstalledAddins())
             {
-                Register(xll);
+                Register(i.Path);
             }
         }
 
@@ -118,7 +118,7 @@ namespace ExcelDna.AddInManager
             List<AddInVersionInfo> addins = new();
             if (Directory.Exists(installedDir))
             {
-                addins = Directory.GetFiles(installedDir, "*.xll").Select(i => new AddInVersionInfo(i)).ToList();
+                addins = Directory.GetFiles(installedDir, "*.xll").Select(i => new AddInVersionInfo(i)).Where(i => SameProcessBitness(i.Bitness)).ToList();
             }
 
             return addins;
@@ -134,7 +134,7 @@ namespace ExcelDna.AddInManager
                     string? source = addinSource.source;
                     if (!string.IsNullOrWhiteSpace(source) && Directory.Exists(source))
                     {
-                        addins.AddRange(Directory.GetFiles(source, "*.xll").Select(i => new AddInVersionInfo(i)));
+                        addins.AddRange(Directory.GetFiles(source, "*.xll").Select(i => new AddInVersionInfo(i)).Where(i => SameProcessBitness(i.Bitness)));
                     }
                 }
             }
@@ -161,6 +161,14 @@ namespace ExcelDna.AddInManager
         private static bool SameProduct(AddInVersionInfo a1, AddInVersionInfo a2)
         {
             return a1.IsVersioned && a2.IsVersioned && a1.CompanyName == a2.CompanyName && a1.ProductName == a2.ProductName;
+        }
+
+        private static bool SameProcessBitness(Bitness bitness)
+        {
+            if (Environment.Is64BitProcess)
+                return bitness == Bitness.Bit64;
+            else
+                return bitness == Bitness.Bit32;
         }
 
         [MemberNotNull(nameof(generalOptions))]
