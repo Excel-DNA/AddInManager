@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="LANG">1033</String>
+  <String Id="ProductName">Excel-DNA Add-In Manager</String>
+  <String Id="ProductNameNoSpace">ExcelDNAAddInManager</String>
+  <String Id="ProductDescription">The Excel-DNA Add-In Manager assists in distributing and managing Excel add-ins.</String>
+  <String Id="ProductManufacturer">Govert van Drimmelen</String>
+  <String Id="ProductVersion">1</String>
+  <String Id="ProductCopyright">(c) 2022 Govert van Drimmelen</String>
+  <String Id="ProductUninstallDescription">Uninstall !(loc.ProductName)</String>
+  <String Id="AppName">!(loc.ProductName)</String>
+</WixLocalization>

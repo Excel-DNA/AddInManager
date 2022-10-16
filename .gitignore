@@ -254,4 +254,8 @@ paket-files/
 # Task Canvas
 *.TaskCanvasSL
 
+# Tabs Studio
+*.marker.tss
+
 /Source/ExcelDna.AddInManager/Properties/launchSettings.json
+/Source/Installer/ExcelAddInDeploy/SourceFiles
