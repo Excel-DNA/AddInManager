@@ -1,6 +1,6 @@
-﻿namespace ExcelDna.AddInManager
+﻿namespace ExcelDna.AddInManager.Common
 {
-    internal enum Bitness
+    public enum Bitness
     {
         Unknown = 0,
         Bit32 = 32,

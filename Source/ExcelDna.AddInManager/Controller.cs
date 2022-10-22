@@ -1,4 +1,5 @@
-﻿using ExcelDna.Integration;
+﻿using ExcelDna.AddInManager.Common;
+using ExcelDna.Integration;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
