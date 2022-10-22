@@ -93,13 +93,23 @@ namespace ExcelDna.AddInManager
                 }
             }
 
-            string installedXllPath = Path.Combine(installedDir, Path.GetFileName(addin.Path));
+            string installedXllPath = Path.Combine(installedDir, Path.GetFileName(addin.Path ?? addin.Uri!.LocalPath));
             if (File.Exists(installedXllPath))
             {
                 Uninstall(installedXllPath);
             }
             Storage.CreateDirectoryForFile(installedXllPath);
-            File.Copy(addin.Path, installedXllPath, true);
+            if (addin.Path != null)
+            {
+                File.Copy(addin.Path, installedXllPath, true);
+            }
+            else
+            {
+#pragma warning disable SYSLIB0014
+                using (System.Net.WebClient wc = new())
+                    wc.DownloadFile(addin.Uri!, installedXllPath);
+#pragma warning restore SYSLIB0014
+            }
 
             if (register)
                 Register(installedXllPath);
