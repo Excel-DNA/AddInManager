@@ -30,7 +30,7 @@ namespace ExcelDna.AddInManager
 
             foreach (var i in GetInstalledAddins())
             {
-                Register(i.Path);
+                Register(i.Path!);
             }
         }
 
@@ -54,7 +54,7 @@ namespace ExcelDna.AddInManager
             {
                 foreach (var i in dialog.GetAddinsForUninstall()!)
                 {
-                    Uninstall(i.Path);
+                    Uninstall(i.Path!);
                 }
             }
         }
@@ -89,7 +89,7 @@ namespace ExcelDna.AddInManager
             {
                 foreach (var i in installedAddins.Where(i => SameProduct(i, addin)))
                 {
-                    Uninstall(i.Path);
+                    Uninstall(i.Path!);
                 }
             }
 
@@ -131,35 +131,54 @@ namespace ExcelDna.AddInManager
             if (generalOptions.sources != null)
             {
                 foreach (var addinSource in generalOptions.sources)
-                {
-                    string? source = addinSource.source;
-                    if (!string.IsNullOrWhiteSpace(source) && Directory.Exists(source))
-                    {
-                        IEnumerable<AddInVersionInfo> sourceAddins;
-                        string indexFile = Path.Combine(source, Utils.IndexFileName);
-                        if (File.Exists(indexFile))
-                        {
-                            List<AddInFile> addinFiles = new();
-                            try
-                            {
-                                addinFiles = XmlSerializer.XmlDeserialize<List<AddInFile>>(indexFile);
-                            }
-                            catch (ApplicationException e)
-                            {
-                                ExceptionHandler.ShowException(e);
-                            }
-                            sourceAddins = addinFiles.Select(i => new AddInVersionInfo(source, i));
-                        }
-                        else
-                        {
-                            sourceAddins = Directory.GetFiles(source, "*.xll").Select(i => new AddInVersionInfo(i));
-                        }
-                        addins.AddRange(sourceAddins.Where(i => SameProcessBitness(i.Bitness)));
-                    }
-                }
+                    addins.AddRange(GetSourceAddins(addinSource.source).Where(i => SameProcessBitness(i.Bitness)));
             }
 
             return addins;
+        }
+
+        private static IEnumerable<AddInVersionInfo> GetSourceAddins(string? source)
+        {
+            IEnumerable<AddInVersionInfo> sourceAddins = new AddInVersionInfo[0];
+            if (Uri.IsWellFormedUriString(source, UriKind.Absolute))
+            {
+                if (Uri.TryCreate(source, UriKind.Absolute, out Uri? sourceUri) && Uri.TryCreate(sourceUri, Utils.IndexFileName, out Uri? indexFileUri))
+                {
+                    List<AddInFile> addinFiles = new();
+                    try
+                    {
+                        addinFiles = XmlSerializer.XmlDeserialize<List<AddInFile>>(indexFileUri.AbsoluteUri);
+                    }
+                    catch (ApplicationException e)
+                    {
+                        ExceptionHandler.ShowException(e);
+                    }
+                    sourceAddins = addinFiles.Select(i => new AddInVersionInfo(sourceUri, i));
+                }
+            }
+            else if (Directory.Exists(source))
+            {
+                string indexFile = Path.Combine(source, Utils.IndexFileName);
+                if (File.Exists(indexFile))
+                {
+                    List<AddInFile> addinFiles = new();
+                    try
+                    {
+                        addinFiles = XmlSerializer.XmlDeserialize<List<AddInFile>>(indexFile);
+                    }
+                    catch (ApplicationException e)
+                    {
+                        ExceptionHandler.ShowException(e);
+                    }
+                    sourceAddins = addinFiles.Select(i => new AddInVersionInfo(source, i));
+                }
+                else
+                {
+                    sourceAddins = Directory.GetFiles(source, "*.xll").Select(i => new AddInVersionInfo(i));
+                }
+            }
+
+            return sourceAddins;
         }
 
         private static void Register(string xllPath)
