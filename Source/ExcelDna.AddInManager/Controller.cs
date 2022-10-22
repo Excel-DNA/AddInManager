@@ -135,7 +135,26 @@ namespace ExcelDna.AddInManager
                     string? source = addinSource.source;
                     if (!string.IsNullOrWhiteSpace(source) && Directory.Exists(source))
                     {
-                        addins.AddRange(Directory.GetFiles(source, "*.xll").Select(i => new AddInVersionInfo(i)).Where(i => SameProcessBitness(i.Bitness)));
+                        IEnumerable<AddInVersionInfo> sourceAddins;
+                        string indexFile = Path.Combine(source, Utils.IndexFileName);
+                        if (File.Exists(indexFile))
+                        {
+                            List<AddInFile> addinFiles = new();
+                            try
+                            {
+                                addinFiles = XmlSerializer.XmlDeserialize<List<AddInFile>>(indexFile);
+                            }
+                            catch (ApplicationException e)
+                            {
+                                ExceptionHandler.ShowException(e);
+                            }
+                            sourceAddins = addinFiles.Select(i => new AddInVersionInfo(source, i));
+                        }
+                        else
+                        {
+                            sourceAddins = Directory.GetFiles(source, "*.xll").Select(i => new AddInVersionInfo(i));
+                        }
+                        addins.AddRange(sourceAddins.Where(i => SameProcessBitness(i.Bitness)));
                     }
                 }
             }

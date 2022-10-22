@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <ExcelAddInDisableAssemblyContextUnload>true</ExcelAddInDisableAssemblyContextUnload>
     <ExcelAddInInclude>ExcelDna.AddInManager.Common.dll</ExcelAddInInclude>
   </PropertyGroup>
 
