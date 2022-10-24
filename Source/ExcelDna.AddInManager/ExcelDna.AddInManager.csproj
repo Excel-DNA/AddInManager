@@ -8,9 +8,18 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <ExcelAddInDisableAssemblyContextUnload>true</ExcelAddInDisableAssemblyContextUnload>
+    <ExcelAddInInclude>ExcelDna.AddInManager.Common.dll</ExcelAddInInclude>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="ExcelDna.AddIn" Version="1.6.0" />
     <PackageReference Include="ExcelDna.Interop" Version="15.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ExcelDna.AddInManager.Common\ExcelDna.AddInManager.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

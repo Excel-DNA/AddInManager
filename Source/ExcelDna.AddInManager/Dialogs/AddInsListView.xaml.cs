@@ -12,7 +12,7 @@ namespace ExcelDna.AddInManager
             }
 
             public string? CompanyName => Addin.CompanyName;
-            public string? ProductName => Addin.IsVersioned ? Addin.ProductName : Path.GetFileNameWithoutExtension(Addin.Path);
+            public string? ProductName => Addin.IsVersioned ? Addin.ProductName : Path.GetFileNameWithoutExtension(Addin.Path ?? Addin.Uri?.LocalPath);
             public string? Version => Addin.Version?.ToString();
 
             public AddInVersionInfo Addin { get; }

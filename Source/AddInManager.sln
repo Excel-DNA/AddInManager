@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33006.217
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelDna.AddInManager", "ExcelDna.AddInManager\ExcelDna.AddInManager.csproj", "{CE907517-6F55-49EC-A6CE-BB614C292CF1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExcelDna.AddInManager", "ExcelDna.AddInManager\ExcelDna.AddInManager.csproj", "{CE907517-6F55-49EC-A6CE-BB614C292CF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelDna.AddInManager.IndexGenerator", "ExcelDna.AddInManager.IndexGenerator\ExcelDna.AddInManager.IndexGenerator.csproj", "{598D30ED-1525-45C5-81D6-4A26AFAC1CAA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelDna.AddInManager.Common", "ExcelDna.AddInManager.Common\ExcelDna.AddInManager.Common.csproj", "{AF852BE1-3522-4EB5-B546-50F412A17EE9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +19,19 @@ Global
 		{CE907517-6F55-49EC-A6CE-BB614C292CF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE907517-6F55-49EC-A6CE-BB614C292CF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE907517-6F55-49EC-A6CE-BB614C292CF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{598D30ED-1525-45C5-81D6-4A26AFAC1CAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{598D30ED-1525-45C5-81D6-4A26AFAC1CAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{598D30ED-1525-45C5-81D6-4A26AFAC1CAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{598D30ED-1525-45C5-81D6-4A26AFAC1CAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF852BE1-3522-4EB5-B546-50F412A17EE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF852BE1-3522-4EB5-B546-50F412A17EE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF852BE1-3522-4EB5-B546-50F412A17EE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF852BE1-3522-4EB5-B546-50F412A17EE9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6F72F8CC-8B73-4E05-90AD-A99783DCDBF2}
 	EndGlobalSection
 EndGlobal
