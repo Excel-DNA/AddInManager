@@ -2,8 +2,8 @@
 <customUI xmlns='http://schemas.microsoft.com/office/2009/07/customui' loadImage='LoadImage'>
 	<ribbon>
 		<tabs>
-			<tab id='ExcelDnaAddInManagerTab' label='Add-In Manager'>
-				<group id='generalGroup' label='General'>
+			<tab idMso='TabAddIns'>
+				<group id='generalGroup' label='Excel-DNA Add-in Manager'>
 					<button id='button1' label='Install' onAction='OnButtonInstallPressed' size='large' imageMso='MacroPlay'/>
 					<button id='button2' label='Manage' onAction='OnButtonManagePressed' size='large' imageMso='Repaginate'/>
 					<button id='button3' label='Options' onAction='OnButtonOptionsPressed' size='large' imageMso='SourceControlOptions'/>
