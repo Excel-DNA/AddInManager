@@ -14,8 +14,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ExcelDna.AddIn" Version="1.6.0" />
-    <PackageReference Include="ExcelDna.Interop" Version="15.0.0" />
+    <PackageReference Include="ExcelDna.AddIn" Version="1.7.0" />
+    <PackageReference Include="ExcelDna.Interop" Version="15.0.1" />
   </ItemGroup>
 
   <ItemGroup>
